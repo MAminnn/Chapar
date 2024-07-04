@@ -31,7 +31,7 @@ namespace Infrastructure.Services
             #endregion
             #region Database
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("Server"), o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
+                options.UseSqlServer(configuration["ConnectionStrings:Server"], o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
             #endregion
             #region Auth
             services.AddIdentity<User,IdentityRole<int>>().AddEntityFrameworkStores<AppDbContext>().AddErrorDescriber<PersianIdentityErrorDescriber>().AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);

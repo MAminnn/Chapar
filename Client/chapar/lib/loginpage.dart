@@ -104,7 +104,7 @@ class LoginPage extends State<LoginPageWidget> {
                 icon: Icon(
                   // Based on passwordVisible state choose the icon
                   passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Theme.of(context).toggleableActiveColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 onPressed: () {
                   // Update the state i.e. toogle the state of passwordVisible variable
@@ -139,7 +139,7 @@ class LoginPage extends State<LoginPageWidget> {
                             builder: (context) =>
                                 const registerpage.RegisterPageWidget()))
                   },
-              child: Text(
+              child: const Text(
                 textAlign: TextAlign.center,
                 "حساب کاربری ندارید ؟ یکی بسازید",
                 style: TextStyle(fontSize: 23),

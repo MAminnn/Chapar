@@ -84,9 +84,9 @@ class RegisterPage extends State<RegisterPageWidget> {
           actions: appThemes.map((theme) {
             return TextButton(
                 style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(const Size(45, 45)),
-                  maximumSize: MaterialStateProperty.all(const Size(45, 45)),
-                  padding: MaterialStateProperty.all(EdgeInsets.zero),
+                  minimumSize: WidgetStateProperty.all(const Size(45, 45)),
+                  maximumSize: WidgetStateProperty.all(const Size(45, 45)),
+                  padding: WidgetStateProperty.all(EdgeInsets.zero),
                 ),
                 onPressed: () {
                   setState(() {
@@ -105,7 +105,7 @@ class RegisterPage extends State<RegisterPageWidget> {
                 color: applicationTheme.highlightColor, fontFamily: "Vazir"),
           ),
         ),
-        backgroundColor: applicationTheme.backgroundColor,
+        backgroundColor: applicationTheme.scaffoldBackgroundColor,
         body: SingleChildScrollView(
           child: Container(
             constraints: const BoxConstraints(minHeight: 550, minWidth: 350),
@@ -259,15 +259,15 @@ class RegisterPage extends State<RegisterPageWidget> {
                                   rPasswordTF.text, rConfirmPasswordTF.text)
                             },
                         style: ButtonStyle(
-                            padding: MaterialStateProperty.all(
+                            padding: WidgetStateProperty.all(
                                 const EdgeInsets.all(20)),
-                            backgroundColor: MaterialStateProperty.all(
+                            backgroundColor: WidgetStateProperty.all(
                                 applicationTheme.primaryColor)),
                         child: Text(
                           "ثبت",
                           style: TextStyle(
                               fontSize: 20,
-                              color: applicationTheme.backgroundColor),
+                              color: applicationTheme.scaffoldBackgroundColor),
                         ))),
                 TextButton(
                     onPressed: () => {
@@ -283,16 +283,15 @@ class RegisterPage extends State<RegisterPageWidget> {
                       style: TextStyle(
                           fontSize: 22, color: applicationTheme.primaryColor),
                     )),
-                Container(
-                    child: Text(
-                      registerErorText,
-                      maxLines: 7,
-                      style: const TextStyle(
-                          height: 3,
-                          fontSize: 18,
-                          color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ))
+                Text(
+                  registerErorText,
+                  maxLines: 7,
+                  style: const TextStyle(
+                      height: 3,
+                      fontSize: 18,
+                      color: Colors.red),
+                  textAlign: TextAlign.center,
+                )
               ],
             ),
           ),
@@ -321,7 +320,7 @@ class RegisterPage extends State<RegisterPageWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: applicationTheme.backgroundColor,
+      backgroundColor: applicationTheme.scaffoldBackgroundColor,
       title: Text(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.right,

@@ -17,7 +17,7 @@ import 'thememanager.dart';
 
 String accessToken = "";
 String refreshToken = "";
-String domain = "https://chapar.crusaders.ir";
+String domain = "https://localhost:44352";
 var cacheManager;
 
 Future<void> reauth(BuildContext context) async {
@@ -31,7 +31,7 @@ Future<void> reauth(BuildContext context) async {
 
   if (refreshresponse.body == "") {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => ThemeLayout(body: const LoginPageWidget())));
+        builder: (context) => const ThemeLayout(body: LoginPageWidget())));
   } else {
     final authres =
         AuthenticationResponse.fromJson(jsonDecode(refreshresponse.body));
@@ -66,10 +66,10 @@ class _MainPageState extends State<MainPage> {
               textDirection: TextDirection.rtl,
             ),
             Padding(
-              padding: EdgeInsets.all(35),
+              padding: const EdgeInsets.all(35),
               child: TextButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
+                      backgroundColor: WidgetStateProperty.all(
                           isConnectionInProgress
                               ? Colors.black26
                               : Colors.black)),
@@ -123,8 +123,8 @@ class _MainPageState extends State<MainPage> {
                     .getString("refreshToken")
                     .toString())));
         if (refreshresponse.body == "") {
-          navigate(ThemeLayout(
-            body: const LoginPageWidget(),
+          navigate(const ThemeLayout(
+            body: LoginPageWidget(),
           ));
         } else {
           final authres =

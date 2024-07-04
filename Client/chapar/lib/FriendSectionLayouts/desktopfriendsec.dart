@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:chapar/DTOs/accept_friend_request.dart';
 import 'package:chapar/DTOs/contact.dart';
-import 'package:chapar/DTOs/simple_friend.dart';
 import 'package:chapar/contacts.dart';
 import 'package:chapar/main.dart';
 import '../thememanager.dart' as themeManager;
@@ -13,8 +12,8 @@ import 'package:chapar/thememanager.dart';
 Contact? currentContact;
 
 class DesktopScreenFriendSection extends StatefulWidget {
-  dynamic Function() getContactData;
-  DesktopScreenFriendSection({
+  final dynamic Function() getContactData;
+  const DesktopScreenFriendSection({
     required this.getContactData,
     Key? key,
   }) : super(key: key);
@@ -125,7 +124,7 @@ class DesktopScreenFriendSectionState
                           canTapOnHeader: true,
                           backgroundColor: item['isExpanded'] == true
                               ? themeManager.applicationTheme.primaryColor
-                              : themeManager.applicationTheme.backgroundColor,
+                              : themeManager.applicationTheme.scaffoldBackgroundColor,
                           headerBuilder: (_, isExpanded) => Container(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 30),
@@ -139,7 +138,7 @@ class DesktopScreenFriendSectionState
                                         fontSize: 20,
                                         color: item['isExpanded'] == true
                                             ? themeManager.applicationTheme
-                                                .backgroundColor
+                                                .scaffoldBackgroundColor
                                             : themeManager
                                                 .applicationTheme.primaryColor,
                                         fontFamily: "Chubbo Light"),
@@ -236,7 +235,7 @@ class DesktopScreenFriendSectionState
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: applicationTheme.backgroundColor,
+      backgroundColor: applicationTheme.scaffoldBackgroundColor,
       title: Text(
         title,
         style: TextStyle(

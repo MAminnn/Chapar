@@ -1,5 +1,4 @@
 import 'package:chapar/DTOs/message.dart';
-import 'package:chapar/DTOs/simple_message.dart';
 
 class ChatVM {
   int id;

@@ -1,4 +1,3 @@
-import 'received_friend_request.dart';
 
 class Contact {
   int id;

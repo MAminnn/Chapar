@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 
-final persianFont = "Vazir";
-final englishFont = "";
+const persianFont = "Vazir";
+const englishFont = "";
 
 ThemeData applicationTheme = appThemes[0];
 MaterialColor aquaThemeColor = const MaterialColor(0x1CDAB8, {
@@ -45,75 +44,68 @@ var darkColor = const Color.fromARGB(255, 33, 33, 33);
 List<ThemeData> appThemes = [
   ThemeData(
       textTheme: const TextTheme(
-          bodyText2: TextStyle(
+          bodyMedium: TextStyle(
         color: Color.fromARGB(255, 55, 71, 79),
       )),
       indicatorColor: orangeThemeColor[200],
       primaryColor: orangeThemeColor[200],
-      backgroundColor: const Color.fromARGB(255, 55, 71, 79),
+      scaffoldBackgroundColor: const Color.fromARGB(255, 55, 71, 79),
       hintColor: orangeThemeColor[200],
-      toggleableActiveColor: orangeThemeColor[200],
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all(orangeThemeColor[200]))),
+              foregroundColor: WidgetStateProperty.all(orangeThemeColor[200]))),
       appBarTheme: AppBarTheme(backgroundColor: orangeThemeColor[700]),
       highlightColor: const Color.fromARGB(255, 55, 71, 79),
       fontFamily: "Vazir",
       secondaryHeaderColor: orangeThemeColor[900]),
   ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: darkColor)),
+      textTheme: TextTheme(bodyMedium: TextStyle(color: darkColor)),
       indicatorColor: yellowThemeColor[200],
       primaryColor: yellowThemeColor[200],
-      backgroundColor: darkColor,
+      scaffoldBackgroundColor: darkColor,
       hintColor: yellowThemeColor[200],
-      toggleableActiveColor: yellowThemeColor[200],
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all(yellowThemeColor[200]))),
+              foregroundColor: WidgetStateProperty.all(yellowThemeColor[200]))),
       appBarTheme: AppBarTheme(backgroundColor: yellowThemeColor[700]),
       highlightColor: darkColor,
       fontFamily: "Vazir",
       secondaryHeaderColor: yellowThemeColor[900]),
   ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: aquaThemeColor[700])),
+      textTheme: TextTheme(bodyMedium: TextStyle(color: aquaThemeColor[700])),
       indicatorColor: aquaThemeColor[700],
       primaryColor: aquaThemeColor[50],
-      backgroundColor: aquaThemeColor[700],
+      scaffoldBackgroundColor: aquaThemeColor[700],
       hintColor: aquaThemeColor[50],
-      toggleableActiveColor: aquaThemeColor[50],
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(aquaThemeColor[50]))),
+              foregroundColor: WidgetStateProperty.all(aquaThemeColor[50]))),
       appBarTheme: AppBarTheme(backgroundColor: aquaThemeColor[700]),
       highlightColor: aquaThemeColor[50],
       fontFamily: "Vazir",
       secondaryHeaderColor: aquaThemeColor[200]),
   ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: lightThemeColor[200])),
+      textTheme: TextTheme(bodyMedium: TextStyle(color: lightThemeColor[200])),
       indicatorColor: lightThemeColor[200],
-      backgroundColor: lightThemeColor[200],
+      scaffoldBackgroundColor: lightThemeColor[200],
       primaryColor: lightThemeColor[50],
       hintColor: lightThemeColor[50],
-      toggleableActiveColor: lightThemeColor[50],
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(lightThemeColor[50]))),
+              foregroundColor: WidgetStateProperty.all(lightThemeColor[50]))),
       appBarTheme: AppBarTheme(backgroundColor: lightThemeColor[700]),
       highlightColor: lightThemeColor[50],
       fontFamily: "Vazir",
       secondaryHeaderColor: lightThemeColor[900]),
   ThemeData(
-      textTheme: TextTheme(bodyText2: TextStyle(color: darkThemeColor[200])),
+      textTheme: TextTheme(bodyMedium: TextStyle(color: darkThemeColor[200])),
       indicatorColor: darkThemeColor[200],
       primaryColor: darkThemeColor[50],
-      backgroundColor: darkThemeColor[200],
+      scaffoldBackgroundColor: darkThemeColor[200],
       hintColor: darkThemeColor[50],
-      toggleableActiveColor: darkThemeColor[50],
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(darkThemeColor[50]))),
+              foregroundColor: WidgetStateProperty.all(darkThemeColor[50]))),
       appBarTheme: AppBarTheme(backgroundColor: darkThemeColor[700]),
       highlightColor: darkThemeColor[50],
       fontFamily: "Vazir",
@@ -121,9 +113,9 @@ List<ThemeData> appThemes = [
 ];
 
 class ThemeLayout extends StatefulWidget {
-  Widget body;
+  final Widget body;
 
-  ThemeLayout({Key? key, required this.body}) : super(key: key);
+  const ThemeLayout({Key? key, required this.body}) : super(key: key);
 
   @override
   State<ThemeLayout> createState() => _ThemeLayoutState();
@@ -134,20 +126,17 @@ class _ThemeLayoutState extends State<ThemeLayout> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: applicationTheme,
-      home: WillPopScope(
-          onWillPop: (() async {
-            return false;
-          }),
+      home: PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {},
           child: Scaffold(
             appBar: AppBar(
               actions: appThemes.map((theme) {
                 return TextButton(
                     style: ButtonStyle(
-                      minimumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
-                      maximumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                      minimumSize: WidgetStateProperty.all(const Size(45, 45)),
+                      maximumSize: WidgetStateProperty.all(const Size(45, 45)),
+                      padding: WidgetStateProperty.all(EdgeInsets.zero),
                     ),
                     onPressed: () {
                       setState(() {
@@ -167,7 +156,7 @@ class _ThemeLayoutState extends State<ThemeLayout> {
                     fontFamily: "Vazir"),
               ),
             ),
-            backgroundColor: applicationTheme.backgroundColor,
+            backgroundColor: applicationTheme.scaffoldBackgroundColor,
             body: widget.body,
           )),
     );

@@ -10,6 +10,7 @@ using Infrastructure.Services.Identity.JWT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
 
 namespace MessengerAPI.Controllers
 {
@@ -17,13 +18,15 @@ namespace MessengerAPI.Controllers
     public class AccountController : ControllerBase
     {
         #region fields
+        private IConfiguration _configuration;
         private UserManager _userManager;
         private IEmailSender _emailSender;
         private UserManager<User> _aspUserManager;
         private JwtMediateR _jwtMediatR;
         #endregion
-        public AccountController(UserManager<User> aspUserManager, IEmailSender emailSender, JwtMediateR jwtMediatR, SignInManager<User> signInManager, IContactManager contactManager)
+        public AccountController(IConfiguration configuration ,UserManager<User> aspUserManager, IEmailSender emailSender, JwtMediateR jwtMediatR, SignInManager<User> signInManager, IContactManager contactManager)
         {
+            _configuration = configuration;
             _aspUserManager = aspUserManager;
             _emailSender = emailSender;
             _jwtMediatR = jwtMediatR;
@@ -95,7 +98,7 @@ namespace MessengerAPI.Controllers
         $" برای تایید ایمیل خود و فعال شدن حساب کاربری روی لینک زیر کلیک نمایید <br/>" +
         $" امیدواریم از برنامه ی ما نهایت لذت را ببرید ، خواهشمندیم در صورت بروز هرگونه مشکل و یا ثبت پیشنهاد یا انتقادی از طریق پل های ارتباطی ارائه شده در برنامه به ما گزارش دهید ، تشکر   <br/>" +
         $"<h3><a href='{serverUrl}' >تایید ایمیل </a></h3>";
-            _emailSender.SendEmail("Amin@karvizi1384", email, "تایید ایمیل", body, true, "cmsg@crusaders.ir", 25, "webmail.crusaders.ir");
+            _emailSender.SendEmail(_configuration["EmailSettings:EmailPassword"], email, "تایید ایمیل", body, true, _configuration["EmailSettings:EmailAddress"], 25, _configuration["EmailSettings:EmailHost"]);
         }
     }
 }

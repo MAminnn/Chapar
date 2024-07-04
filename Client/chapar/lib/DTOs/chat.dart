@@ -1,7 +1,6 @@
 import 'package:chapar/DTOs/simple_contact.dart';
 
 import 'message.dart';
-import 'simple_contact.dart';
 
 class Chat {
   int id;

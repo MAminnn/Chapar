@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:chapar/DTOs/accept_friend_request.dart';
 import 'package:chapar/DTOs/contact.dart';
-import 'package:chapar/DTOs/simple_friend.dart';
 import 'package:chapar/contacts.dart';
 import 'package:chapar/thememanager.dart';
 import '../thememanager.dart' as themeManager;
@@ -13,8 +12,8 @@ import 'package:chapar/main.dart';
 Contact? currentContact;
 
 class MobileScreenFriendSection extends StatefulWidget {
-  dynamic Function() getContactData;
-  MobileScreenFriendSection({Key? key, required this.getContactData})
+  final dynamic Function() getContactData;
+  const MobileScreenFriendSection({Key? key, required this.getContactData})
       : super(key: key);
 
   @override
@@ -128,7 +127,7 @@ class MobileScreenFriendSectionState extends State<MobileScreenFriendSection> {
                           canTapOnHeader: true,
                           backgroundColor: item['isExpanded'] == true
                               ? themeManager.applicationTheme.primaryColor
-                              : themeManager.applicationTheme.backgroundColor,
+                              : themeManager.applicationTheme.scaffoldBackgroundColor,
                           headerBuilder: (_, isExpanded) => Container(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 30),
@@ -142,7 +141,7 @@ class MobileScreenFriendSectionState extends State<MobileScreenFriendSection> {
                                         fontSize: 20,
                                         color: item['isExpanded'] == true
                                             ? themeManager.applicationTheme
-                                                .backgroundColor
+                                                .scaffoldBackgroundColor
                                             : themeManager
                                                 .applicationTheme.primaryColor,
                                         fontFamily: "Chubbo Light"),
@@ -239,7 +238,7 @@ class MobileScreenFriendSectionState extends State<MobileScreenFriendSection> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: applicationTheme.backgroundColor,
+      backgroundColor: applicationTheme.scaffoldBackgroundColor,
       title: Text(
         title,
         style: TextStyle(

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <UserSecretsId>5afaf30c-3394-4d0b-8eac-5891e5f2ae64</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

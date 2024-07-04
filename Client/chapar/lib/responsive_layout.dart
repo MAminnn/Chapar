@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'thememanager.dart';
 class ResponsiveLayout extends StatelessWidget {
   final Widget mobileScreenWidget;
   final Widget desktopScreenWidget;
-  ThemeData applicationTheme;
-  ResponsiveLayout({
+  final ThemeData applicationTheme;
+  const ResponsiveLayout({
     Key? key,
     required this.desktopScreenWidget,
     required this.mobileScreenWidget,

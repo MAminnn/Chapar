@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;
@@ -15,7 +13,6 @@ import 'package:chapar/DTOs/message.dart';
 import 'package:chapar/contacts.dart';
 import 'package:chapar/thememanager.dart';
 import 'protobuf/message_to_send.dart';
-import 'DTOs/simple_message.dart';
 import 'main.dart';
 import 'dynamic_dir_textfield.dart';
 
@@ -183,11 +180,11 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: const ShapeDecoration(shape: CircleBorder()),
                   child: Text(unreadMessagesCount.toString(),
                       style:
-                          TextStyle(color: applicationTheme.backgroundColor)),
+                          TextStyle(color: applicationTheme.scaffoldBackgroundColor)),
                 ),
                 Icon(
                   Icons.arrow_downward,
-                  color: applicationTheme.backgroundColor,
+                  color: applicationTheme.scaffoldBackgroundColor,
                 ),
               ]),
             ),
@@ -273,15 +270,15 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: applicationTheme,
-        home: RawKeyboardListener(
+        home: KeyboardListener(
             autofocus: true,
             focusNode: FocusNode(),
-            onKey: (event) {
+            onKeyEvent: (event) {
               if (event.logicalKey.keyId == 0x10000000d &&
                   event.physicalKey == PhysicalKeyboardKey.enter &&
-                  !event.isShiftPressed &&
-                  !event.isControlPressed &&
-                  !event.isAltPressed &&
+                  !HardwareKeyboard.instance.isShiftPressed &&
+                  !HardwareKeyboard.instance.isControlPressed &&
+                  !HardwareKeyboard.instance.isAltPressed &&
                   event.runtimeType.toString() == 'RawKeyDownEvent') {
                 if (isInputFocused == true) {
                   sendMessage();
@@ -292,7 +289,7 @@ class _ChatPageState extends State<ChatPage> {
                 floatingActionButton: scrollToDownButton,
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.endFloat,
-                backgroundColor: applicationTheme.backgroundColor,
+                backgroundColor: applicationTheme.scaffoldBackgroundColor,
                 appBar: AppBar(
                   title: Text(
                     widget.title,
@@ -304,10 +301,10 @@ class _ChatPageState extends State<ChatPage> {
                     return TextButton(
                         style: ButtonStyle(
                           minimumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
+                          WidgetStateProperty.all(const Size(45, 45)),
                           maximumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          WidgetStateProperty.all(const Size(45, 45)),
+                          padding: WidgetStateProperty.all(EdgeInsets.zero),
                         ),
                         onPressed: () {
                           setState(() {
@@ -335,7 +332,7 @@ class _ChatPageState extends State<ChatPage> {
                   children: [
                     Expanded(
                         child: Container(
-                      color: applicationTheme.backgroundColor,
+                      color: applicationTheme.scaffoldBackgroundColor,
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
                       child: Column(
                         children: [
@@ -344,7 +341,7 @@ class _ChatPageState extends State<ChatPage> {
                             children: [
                               Expanded(
                                   child: Material(
-                                      color: applicationTheme.backgroundColor,
+                                      color: applicationTheme.scaffoldBackgroundColor,
                                       child: ListView.builder(
                                           padding: const EdgeInsets.fromLTRB(
                                               30, 10, 30, 10),
@@ -393,7 +390,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                       true,
                                                                   style: TextStyle(
                                                                       color: applicationTheme
-                                                                          .backgroundColor),
+                                                                          .scaffoldBackgroundColor),
                                                                 ),
                                                                 Row(
                                                                   mainAxisSize:
@@ -410,7 +407,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                           fontSize:
                                                                               11,
                                                                           color:
-                                                                              applicationTheme.backgroundColor),
+                                                                              applicationTheme.scaffoldBackgroundColor),
                                                                     ),
                                                                     const SizedBox(
                                                                       width: 3,
@@ -422,14 +419,14 @@ class _ChatPageState extends State<ChatPage> {
                                                                             size:
                                                                                 13,
                                                                             color:
-                                                                                applicationTheme.backgroundColor,
+                                                                                applicationTheme.scaffoldBackgroundColor,
                                                                           )
                                                                         : Icon(
                                                                             Icons.access_time_outlined,
                                                                             size:
                                                                                 13,
                                                                             color:
-                                                                                applicationTheme.backgroundColor,
+                                                                                applicationTheme.scaffoldBackgroundColor,
                                                                           )
                                                                   ],
                                                                 )
@@ -485,7 +482,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                               .contacts
                                                                               .firstWhere((element) => element.id == messages[index].senderId)
                                                                               .username,
-                                                                          style: TextStyle(fontSize: 10, color: applicationTheme.backgroundColor)),
+                                                                          style: TextStyle(fontSize: 10, color: applicationTheme.scaffoldBackgroundColor)),
                                                                       Text(
                                                                         messages[index]
                                                                             .text,
@@ -495,7 +492,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                             true,
                                                                         style: TextStyle(
                                                                             color:
-                                                                                applicationTheme.backgroundColor),
+                                                                                applicationTheme.scaffoldBackgroundColor),
                                                                       ),
                                                                       Row(
                                                                         mainAxisAlignment:
@@ -506,7 +503,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                           Text(
                                                                             intl.DateFormat('kk:mm').format(DateTime.parse(messages[index].sentDate)).toString(),
                                                                             style:
-                                                                                TextStyle(fontSize: 11, color: applicationTheme.backgroundColor),
+                                                                                TextStyle(fontSize: 11, color: applicationTheme.scaffoldBackgroundColor),
                                                                           )
                                                                         ],
                                                                       )
@@ -573,12 +570,12 @@ class _ChatPageState extends State<ChatPage> {
                                               ),
                                               hintText: "پیامی بنویسید",
                                               fillColor: applicationTheme
-                                                  .backgroundColor),
+                                                  .scaffoldBackgroundColor),
                                         ),
                                       ))),
                             ),
                             TextButton(
-                              style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
+                              style: ButtonStyle(padding: WidgetStateProperty.all(EdgeInsets.zero)),
                                 onPressed: (() => {sendMessage()}),
                                 child: Icon(
                                   Icons.send_rounded,

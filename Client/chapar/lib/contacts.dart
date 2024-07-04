@@ -24,10 +24,7 @@ import 'package:http/http.dart';
 import 'DTOs/chatvm.dart';
 import 'DTOs/friend_request_response.dart';
 import 'thememanager.dart';
-import 'main.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'loginpage.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 List<ReceivedFriendRequest> receivedFriendRequests = [];
 List<SimpleFriend> friends = [];
@@ -275,7 +272,7 @@ class ContactsPage extends State<ContactsPageWidget> {
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
-          backgroundColor: applicationTheme.backgroundColor,
+          backgroundColor: applicationTheme.scaffoldBackgroundColor,
           appBar: AppBar(
             title: Text(
               "چاپار",
@@ -283,24 +280,22 @@ class ContactsPage extends State<ContactsPageWidget> {
                   color: applicationTheme.highlightColor, fontFamily: "Vazir"),
             ),
             actions: appThemes.map((theme) {
-              return  TextButton(
-                        style: ButtonStyle(
-                          minimumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
-                          maximumSize:
-                          MaterialStateProperty.all(const Size(45, 45)),
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            applicationTheme = theme;
-                          });
-                        },
-                        child: Icon(
-                          Icons.circle,
-                          color: theme.indicatorColor,
-                          size: 22,
-                        ));
+              return TextButton(
+                  style: ButtonStyle(
+                    minimumSize: WidgetStateProperty.all(const Size(45, 45)),
+                    maximumSize: WidgetStateProperty.all(const Size(45, 45)),
+                    padding: WidgetStateProperty.all(EdgeInsets.zero),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      applicationTheme = theme;
+                    });
+                  },
+                  child: Icon(
+                    Icons.circle,
+                    color: theme.indicatorColor,
+                    size: 22,
+                  ));
             }).toList(),
             bottom: TabBar(
               indicatorColor: applicationTheme.primaryColor,
@@ -371,8 +366,8 @@ class ContactsPage extends State<ContactsPageWidget> {
                                 children: [
                                   Text(chatsList[index].title.toString(),
                                       style: TextStyle(
-                                          color:
-                                              applicationTheme.backgroundColor,
+                                          color: applicationTheme
+                                              .scaffoldBackgroundColor,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600)),
                                   Text(
@@ -384,8 +379,8 @@ class ContactsPage extends State<ContactsPageWidget> {
                                           "",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          color:
-                                              applicationTheme.backgroundColor,
+                                          color: applicationTheme
+                                              .scaffoldBackgroundColor,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600)),
                                   Row(
@@ -399,13 +394,13 @@ class ContactsPage extends State<ContactsPageWidget> {
                                                   .perm_contact_calendar_rounded,
                                               size: 23,
                                               color: applicationTheme
-                                                  .backgroundColor)),
+                                                  .scaffoldBackgroundColor)),
                                       Icon(
                                           chatsList[index].seen
                                               ? Icons.done_all_sharp
                                               : Icons.drafts_rounded,
-                                          color:
-                                              applicationTheme.backgroundColor,
+                                          color: applicationTheme
+                                              .scaffoldBackgroundColor,
                                           size: 18),
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
@@ -425,7 +420,7 @@ class ContactsPage extends State<ContactsPageWidget> {
                                                 textAlign: TextAlign.right,
                                                 style: TextStyle(
                                                     color: applicationTheme
-                                                        .backgroundColor,
+                                                        .scaffoldBackgroundColor,
                                                     fontSize: 11,
                                                     fontWeight:
                                                         FontWeight.w600)),
@@ -483,8 +478,8 @@ class ContactsPage extends State<ContactsPageWidget> {
                                         fontFamily: "Vazir"),
                                     hintTextDirection: TextDirection.rtl,
                                     hintText: "نام دوست خود را وارد نمایید",
-                                    fillColor:
-                                        applicationTheme.backgroundColor),
+                                    fillColor: applicationTheme
+                                        .scaffoldBackgroundColor),
                               ),
                             ),
                             IconButton(
@@ -514,7 +509,8 @@ class ContactsPage extends State<ContactsPageWidget> {
                                   TextStyle(color: applicationTheme.hintColor),
                               hintTextDirection: TextDirection.rtl,
                               hintText: "متن درخواست",
-                              fillColor: applicationTheme.backgroundColor),
+                              fillColor:
+                                  applicationTheme.scaffoldBackgroundColor),
                         ),
                         Expanded(
                           child: ResponsiveLayout(
@@ -533,7 +529,7 @@ class ContactsPage extends State<ContactsPageWidget> {
                 children: [
                   TextButton(
                       style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
+                          padding: WidgetStateProperty.all(
                               const EdgeInsets.all(20))),
                       onPressed: () {
                         showDialog(
@@ -545,7 +541,8 @@ class ContactsPage extends State<ContactsPageWidget> {
                                     'تشکیل گروه',
                                     textDirection: TextDirection.rtl,
                                     style: TextStyle(
-                                        color: applicationTheme.backgroundColor,
+                                        color: applicationTheme
+                                            .scaffoldBackgroundColor,
                                         fontFamily: "Vazir"),
                                   ),
                                   content: Column(
@@ -558,53 +555,55 @@ class ContactsPage extends State<ContactsPageWidget> {
                                           maxLines: 1,
                                           style: TextStyle(
                                             color: applicationTheme
-                                                .backgroundColor,
+                                                .scaffoldBackgroundColor,
                                           ),
                                           controller: groupNameTF,
-                                          cursorColor:
-                                              applicationTheme.backgroundColor,
+                                          cursorColor: applicationTheme
+                                              .scaffoldBackgroundColor,
                                           decoration: InputDecoration(
-                                            counterStyle: TextStyle(color: applicationTheme.backgroundColor),
+                                              counterStyle: TextStyle(
+                                                  color: applicationTheme
+                                                      .scaffoldBackgroundColor),
                                               focusedBorder: UnderlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: applicationTheme
-                                                          .backgroundColor)),
+                                                          .scaffoldBackgroundColor)),
                                               enabledBorder: UnderlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: applicationTheme
-                                                          .backgroundColor)),
+                                                          .scaffoldBackgroundColor)),
                                               hintText: "نام گروه",
                                               hintTextDirection:
                                                   TextDirection.rtl,
                                               hintStyle: TextStyle(
                                                   fontFamily: "Vazir",
                                                   color: applicationTheme
-                                                      .backgroundColor)),
+                                                      .scaffoldBackgroundColor)),
                                         ),
                                         MultiSelectDialogField(
                                           buttonIcon: Icon(
                                             Icons.arrow_drop_down_outlined,
                                             color: applicationTheme
-                                                .backgroundColor,
+                                                .scaffoldBackgroundColor,
                                           ),
                                           buttonText: Text(
                                             "انتخاب اعضا",
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                                 color: applicationTheme
-                                                    .backgroundColor,
+                                                    .scaffoldBackgroundColor,
                                                 fontFamily: "Vazir"),
                                           ),
                                           decoration: BoxDecoration(
                                               border: Border(
                                                   bottom: BorderSide(
                                                       color: applicationTheme
-                                                          .backgroundColor))),
+                                                          .scaffoldBackgroundColor))),
                                           confirmText: Text(
                                             "تایید",
                                             style: TextStyle(
                                                 color: applicationTheme
-                                                    .backgroundColor,
+                                                    .scaffoldBackgroundColor,
                                                 fontSize: 22),
                                           ),
                                           chipDisplay:
@@ -615,12 +614,12 @@ class ContactsPage extends State<ContactsPageWidget> {
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
                                                 color: applicationTheme
-                                                    .backgroundColor),
+                                                    .scaffoldBackgroundColor),
                                           ),
                                           backgroundColor:
                                               applicationTheme.primaryColor,
-                                          unselectedColor:
-                                              applicationTheme.backgroundColor,
+                                          unselectedColor: applicationTheme
+                                              .scaffoldBackgroundColor,
                                           dialogHeight: 100,
                                           itemsTextStyle: TextStyle(
                                               color: applicationTheme
@@ -631,7 +630,7 @@ class ContactsPage extends State<ContactsPageWidget> {
                                               applicationTheme.primaryColor,
                                           selectedItemsTextStyle: TextStyle(
                                               color: applicationTheme
-                                                  .backgroundColor),
+                                                  .scaffoldBackgroundColor),
                                           items: friends
                                               .map((e) => MultiSelectItem(
                                                   e.id, e.username))
@@ -654,15 +653,15 @@ class ContactsPage extends State<ContactsPageWidget> {
                                           "ایجاد",
                                           style: TextStyle(
                                               color: applicationTheme
-                                                  .backgroundColor,
+                                                  .scaffoldBackgroundColor,
                                               fontFamily: "Vazir"),
                                         ))
                                   ],
                                 ));
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
+                        children: [
                           Text(
                             "تشکیل گروه",
                             style: TextStyle(
@@ -673,14 +672,14 @@ class ContactsPage extends State<ContactsPageWidget> {
                       )),
                   TextButton(
                       style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
+                          padding: WidgetStateProperty.all(
                               const EdgeInsets.all(20))),
                       onPressed: () {
                         signOut();
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
+                        children: [
                           Text(
                             "خروج از حساب کاربری",
                             style: TextStyle(
@@ -691,14 +690,14 @@ class ContactsPage extends State<ContactsPageWidget> {
                       )),
                   TextButton(
                       style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
+                          padding: WidgetStateProperty.all(
                               const EdgeInsets.all(20))),
                       onPressed: () {
                         showAboutDialog();
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: const [
+                        children: [
                           Text(
                             "درباره ی ما",
                             style: TextStyle(
@@ -752,7 +751,7 @@ class ContactsPage extends State<ContactsPageWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: applicationTheme.backgroundColor,
+      backgroundColor: applicationTheme.scaffoldBackgroundColor,
       title: Text(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.right,
@@ -796,7 +795,7 @@ class ContactsPage extends State<ContactsPageWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: applicationTheme.backgroundColor,
+      backgroundColor: applicationTheme.scaffoldBackgroundColor,
       title: Text(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.right,
@@ -819,7 +818,7 @@ class ContactsPage extends State<ContactsPageWidget> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: "Vazir",
-                          color: applicationTheme.backgroundColor),
+                          color: applicationTheme.scaffoldBackgroundColor),
                     )),
               )
             ],
@@ -862,12 +861,20 @@ class ContactsPage extends State<ContactsPageWidget> {
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Text(
-              "ایمیل : aminkarvizi1384@gmail.com",
+            child: RichText(
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: "Vazir", color: applicationTheme.primaryColor),
+              text: TextSpan(
+                  text: 'وبسایت شخصی',
+                  style: TextStyle(
+                      fontFamily: "Vazir",
+                      color: applicationTheme.primaryColor),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      await launchUrlString(
+                        "https://aminkarvizi.ir",
+                      );
+                    }),
             ),
           ),
           Container(
@@ -879,59 +886,6 @@ class ContactsPage extends State<ContactsPageWidget> {
                 style: TextStyle(
                     fontFamily: "Vazir", color: applicationTheme.primaryColor),
               )),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                    color: applicationTheme.primaryColor,
-                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                    child: Text(
-                      "با تشکر از آقای عبدی بابت تم های برنامه",
-                      textDirection: TextDirection.rtl,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: "Vazir",
-                          color: applicationTheme.backgroundColor),
-                    )),
-              )
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: RichText(
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: 'اینستاگرام',
-                  style: TextStyle(
-                      fontFamily: "Vazir",
-                      color: applicationTheme.primaryColor),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () async {
-                      await launchUrlString(
-                        "https://www.instagram.com/armin.ab2085/",
-                      );
-                    }),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: RichText(
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: 'تلگرام',
-                  style: TextStyle(
-                      fontFamily: "Vazir",
-                      color: applicationTheme.primaryColor),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () async {
-                      await launchUrlString(
-                        "https://t.me/Armin_7733",
-                      );
-                    }),
-            ),
-          ),
         ],
       ),
       actions: [
@@ -964,7 +918,7 @@ class ContactsPage extends State<ContactsPageWidget> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: applicationTheme.backgroundColor,
+      backgroundColor: applicationTheme.scaffoldBackgroundColor,
       title: Text(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.right,
