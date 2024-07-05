@@ -7,9 +7,15 @@ build/
 android/
 ios/
 macos/
-windows/
+windows/*
+!windows/runner/
+windows/runner/*
+!windows/runner/resources/
 web/
 linux/
+
+# Application icon
+
 
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock

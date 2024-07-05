@@ -17,7 +17,7 @@ import 'thememanager.dart';
 
 String accessToken = "";
 String refreshToken = "";
-String domain = "https://localhost:44352";
+String domain = "https://chapar.aminkarvizi.ir";
 var cacheManager;
 
 Future<void> reauth(BuildContext context) async {
