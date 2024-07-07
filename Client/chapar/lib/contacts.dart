@@ -50,7 +50,7 @@ class ContactsPage extends State<ContactsPageWidget> {
   Future<void> openSocket() async {
     try {
       currentWebSocket = await WebSocket.connect(
-          'wss://chapar.crusaders.ir/chat/Connect',
+          '$webSocketDomain/chat/Connect',
           headers: <String, String>{
             'Authorization': 'Bearer $accessToken',
           });

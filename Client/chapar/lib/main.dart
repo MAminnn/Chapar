@@ -18,6 +18,7 @@ import 'thememanager.dart';
 String accessToken = "";
 String refreshToken = "";
 String domain = "https://chapar.aminkarvizi.ir";
+String webSocketDomain="wss://chapar.aminkarvizi.ir";
 var cacheManager;
 
 Future<void> reauth(BuildContext context) async {

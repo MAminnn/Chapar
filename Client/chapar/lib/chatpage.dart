@@ -106,7 +106,7 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> openSocket() async {
     try {
       currentWebSocket = await WebSocket.connect(
-          'wss://chapar.crusaders.ir/chat/EnterRoom',
+          '$webSocketDomain/chat/EnterRoom',
           headers: <String, String>{
             'Authorization': 'Bearer $accessToken',
             'ChatId': widget.chatId.toString()

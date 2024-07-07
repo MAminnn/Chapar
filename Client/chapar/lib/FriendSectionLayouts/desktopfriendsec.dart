@@ -73,7 +73,6 @@ class DesktopScreenFriendSectionState
             'Authorization': 'Bearer $accessToken'
           });
       if (jsonDecode(response.body) == true) {
-        print("ok");
         setState(() {
           final fr = receivedFriendRequests
               .firstWhere((element) => element.id == frId);
