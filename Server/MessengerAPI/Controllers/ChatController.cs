@@ -67,9 +67,13 @@ namespace MessengerAPI.Controllers
                             {
                                 if (_chatWS.Any(s => s.Item1 == (contact.UserId, newMsg.ChatId)))
                                 {
-                                    foreach (var contactSocket in _chatWS.Where(s => s.Item1 == (contact.UserId, newMsg.ChatId)))
+                                    foreach (var contactSocket in _chatWS.Where(s => s.Item1 == (contact.UserId, newMsg.ChatId)).ToList())
                                     {
-
+                                        if (contactSocket.Item2.State == WebSocketState.Closed)
+                                        {
+                                            _chatWS.Remove(contactSocket);
+                                            continue;
+                                        }
                                         Serializer.Serialize<Message>(memoryStream, new Message()
                                         {
 

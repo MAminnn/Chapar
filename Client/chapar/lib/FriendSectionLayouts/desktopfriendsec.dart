@@ -113,7 +113,7 @@ class DesktopScreenFriendSectionState
                   elevation: 3,
                   expansionCallback: (index, isExpanded) {
                     setState(() {
-                      friendRequests[index]['isExpanded'] = !isExpanded;
+                      friendRequests[index]['isExpanded'] = isExpanded;
                     });
                   },
                   children: friendRequests
@@ -123,7 +123,8 @@ class DesktopScreenFriendSectionState
                           canTapOnHeader: true,
                           backgroundColor: item['isExpanded'] == true
                               ? themeManager.applicationTheme.primaryColor
-                              : themeManager.applicationTheme.scaffoldBackgroundColor,
+                              : themeManager
+                                  .applicationTheme.scaffoldBackgroundColor,
                           headerBuilder: (_, isExpanded) => Container(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 30),

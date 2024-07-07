@@ -34,7 +34,7 @@ class _ChatPageState extends State<ChatPage> {
   bool isInputFocused = false;
   int skipCount = 0;
   var currentChat;
-  var currentWebSocket;
+  WebSocket? currentWebSocket;
   double maxScrollBefore = 0;
   List<Message> messages = [];
   var messasgeTF = TextEditingController();
@@ -111,89 +111,93 @@ class _ChatPageState extends State<ChatPage> {
             'Authorization': 'Bearer $accessToken',
             'ChatId': widget.chatId.toString()
           });
-    } on Exception catch (_) {
-      final authresponse = await get(Uri.parse("$domain/api/account/checkauth"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $accessToken'
-          });
-      if (authresponse.statusCode == 401) {
-        await reauth(context);
-        return await openSocket();
-      }
-      await Future.delayed(const Duration(seconds: 10));
-      return await openSocket();
-    }
-    await getChatInfo();
-    setState(() {});
-    if (pendingMessages != []) {
-      for (var i = 0; i < pendingMessages.length;) {
-        currentWebSocket?.add(kind.ProtobufEncodingContext()
-            .encodeBytes(pendingMessages[i], kind: MessageToSend.kind));
-        pendingMessages.removeAt(i);
-      }
-    }
-    currentWebSocket?.listen((event) {
-      var isScrollMax = (messageListController.offset ==
-          messageListController.position.maxScrollExtent);
-      var gotMSG = kind.ProtobufDecodingContext()
-          .decodeBytes(event, kind: MessageToSend.kind);
-      setState(() {
-        messages.add(Message(
-          int.parse(gotMSG.id),
-          widget.chatId,
-          gotMSG.text,
-          int.parse(gotMSG.senderId),
-          gotMSG.sentDate.toString(),
-        ));
-      });
-      if (gotMSG.senderId != currentContact.id) {
-        if (isScrollMax == true) {
-          setState(() {
-            unreadMessagesCount = 0;
-            scrollToDownButton = null;
-          });
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            messageListController
-                .jumpTo(messageListController.position.maxScrollExtent);
-          });
-        } else {
-          seen(false);
-          unreadMessagesCount++;
-          scrollToDownButton = Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 15, 70),
-            child: FloatingActionButton(
-              backgroundColor: applicationTheme.primaryColor,
-              onPressed: () {
-                setState(() {
-                  seen(true);
-                  unreadMessagesCount = 0;
-                  scrollToDownButton = null;
-                });
-                SchedulerBinding.instance.addPostFrameCallback((_) {
-                  messageListController
-                      .jumpTo(messageListController.position.maxScrollExtent);
-                });
-              },
-              child: Column(children: [
-                DecoratedBox(
-                  decoration: const ShapeDecoration(shape: CircleBorder()),
-                  child: Text(unreadMessagesCount.toString(),
-                      style:
-                          TextStyle(color: applicationTheme.scaffoldBackgroundColor)),
-                ),
-                Icon(
-                  Icons.arrow_downward,
-                  color: applicationTheme.scaffoldBackgroundColor,
-                ),
-              ]),
-            ),
-          );
+      await getChatInfo();
+      setState(() {});
+      if (pendingMessages != []) {
+        for (var i = 0; i < pendingMessages.length;) {
+          currentWebSocket?.add(kind.ProtobufEncodingContext()
+              .encodeBytes(pendingMessages[i], kind: MessageToSend.kind));
+          pendingMessages.removeAt(i);
         }
       }
-    }, onError: (e) {
-      openSocket();
-    });
+      currentWebSocket?.listen((event) {
+        var isScrollMax = (messageListController.offset ==
+            messageListController.position.maxScrollExtent);
+        var gotMSG = kind.ProtobufDecodingContext()
+            .decodeBytes(event, kind: MessageToSend.kind);
+        setState(() {
+          messages.add(Message(
+            int.parse(gotMSG.id),
+            widget.chatId,
+            gotMSG.text,
+            int.parse(gotMSG.senderId),
+            gotMSG.sentDate.toString(),
+          ));
+        });
+        if (gotMSG.senderId != currentContact.id) {
+          if (isScrollMax == true) {
+            setState(() {
+              unreadMessagesCount = 0;
+              scrollToDownButton = null;
+            });
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              messageListController
+                  .jumpTo(messageListController.position.maxScrollExtent);
+            });
+          } else {
+            seen(false);
+            unreadMessagesCount++;
+            scrollToDownButton = Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 15, 70),
+              child: FloatingActionButton(
+                backgroundColor: applicationTheme.primaryColor,
+                onPressed: () {
+                  setState(() {
+                    seen(true);
+                    unreadMessagesCount = 0;
+                    scrollToDownButton = null;
+                  });
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
+                    messageListController
+                        .jumpTo(messageListController.position.maxScrollExtent);
+                  });
+                },
+                child: Column(children: [
+                  DecoratedBox(
+                    decoration: const ShapeDecoration(shape: CircleBorder()),
+                    child: Text(unreadMessagesCount.toString(),
+                        style: TextStyle(
+                            color: applicationTheme.scaffoldBackgroundColor)),
+                  ),
+                  Icon(
+                    Icons.arrow_downward,
+                    color: applicationTheme.scaffoldBackgroundColor,
+                  ),
+                ]),
+              ),
+            );
+          }
+        }
+      }, onError: (e) {
+        openSocket();
+      });
+    } on Exception catch (e) {
+      try {
+        final authresponse = await get(
+            Uri.parse("$domain/api/account/checkauth"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $accessToken'
+            });
+        if (authresponse.statusCode == 401) {
+          await reauth(context);
+          return await openSocket();
+        }
+      } catch (_) {
+        await Future.delayed(const Duration(seconds: 2));
+        openSocket();
+      }
+    }
   }
 
   Future<void> sendMessage() async {
@@ -207,7 +211,7 @@ class _ChatPageState extends State<ChatPage> {
             chatId: currentChat.id.toString(),
             senderId: currentContact?.id.toString() ?? "",
             sentDate: "");
-        if (currentWebSocket?.closeCode != null) {
+        if (!await isWebSocketConnected()) {
           messages.add(Message(0, int.parse(msg.chatId), msg.text,
               int.parse(msg.senderId), DateTime.now().toString(),
               isDeliverd: false));
@@ -301,9 +305,9 @@ class _ChatPageState extends State<ChatPage> {
                     return TextButton(
                         style: ButtonStyle(
                           minimumSize:
-                          WidgetStateProperty.all(const Size(45, 45)),
+                              WidgetStateProperty.all(const Size(45, 45)),
                           maximumSize:
-                          WidgetStateProperty.all(const Size(45, 45)),
+                              WidgetStateProperty.all(const Size(45, 45)),
                           padding: WidgetStateProperty.all(EdgeInsets.zero),
                         ),
                         onPressed: () {
@@ -341,7 +345,8 @@ class _ChatPageState extends State<ChatPage> {
                             children: [
                               Expanded(
                                   child: Material(
-                                      color: applicationTheme.scaffoldBackgroundColor,
+                                      color: applicationTheme
+                                          .scaffoldBackgroundColor,
                                       child: ListView.builder(
                                           padding: const EdgeInsets.fromLTRB(
                                               30, 10, 30, 10),
@@ -373,7 +378,7 @@ class _ChatPageState extends State<ChatPage> {
                                                           child: Padding(
                                                             padding:
                                                                 const EdgeInsets
-                                                                        .fromLTRB(
+                                                                    .fromLTRB(
                                                                     15,
                                                                     7,
                                                                     15,
@@ -467,7 +472,7 @@ class _ChatPageState extends State<ChatPage> {
                                                               child: Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .fromLTRB(
+                                                                        .fromLTRB(
                                                                         15,
                                                                         7,
                                                                         15,
@@ -575,7 +580,9 @@ class _ChatPageState extends State<ChatPage> {
                                       ))),
                             ),
                             TextButton(
-                              style: ButtonStyle(padding: WidgetStateProperty.all(EdgeInsets.zero)),
+                                style: ButtonStyle(
+                                    padding: WidgetStateProperty.all(
+                                        EdgeInsets.zero)),
                                 onPressed: (() => {sendMessage()}),
                                 child: Icon(
                                   Icons.send_rounded,
@@ -628,5 +635,20 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> getData() async {
     await openSocket();
+  }
+
+  Future<bool> isWebSocketConnected() async {
+    try {
+      final socket = await WebSocket.connect('$webSocketDomain/chat/EnterRoom',
+          headers: <String, String>{
+            'Authorization': 'Bearer $accessToken',
+            'ChatId': widget.chatId.toString()
+          });
+      socket.close(); // Close the test connection
+      return true;
+    } catch (e) {
+      openSocket();
+      return false;
+    }
   }
 }
